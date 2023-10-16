@@ -35,7 +35,7 @@ fun FullApp(modifier: Modifier = Modifier) {
 @Composable
 fun MainPreview() {
     val tasks = remember {
-        mutableStateListOf<String>("hello", "world")
+        mutableStateListOf<String>("hello", "world", "roses are red")
     }
 
     AndroidAppTestTheme {

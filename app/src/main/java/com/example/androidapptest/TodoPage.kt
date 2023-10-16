@@ -1,8 +1,12 @@
 package com.example.androidapptest
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +14,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -19,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -29,8 +35,16 @@ fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
         mutableStateOf("")
     }
 
-    Column(modifier) {
-        Row {
+    Column(
+        modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ){
             BasicTextField(
                 value = new_task,
                 onValueChange = { text ->
@@ -39,16 +53,23 @@ fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
                 singleLine = true,
                 modifier = Modifier
                     .border(1.dp, Color.Gray, shape = RoundedCornerShape(5.dp))
+                    .padding(5.dp)
+                    .weight(1f, fill = true)
             )
-            Button(onClick = {
-                if (new_task.isNotBlank()) {
-                    tasks.add(new_task)
-                    new_task = ""
-                }
-            }) {
+            Button(
+                onClick = {
+                    if (new_task.isNotBlank()) {
+                        tasks.add(new_task)
+                        new_task = ""
+                    }
+                },
+                modifier = Modifier
+                    .padding(5.dp)
+            ){
                 Text("Add")
             }
         }
+        Divider()
         TaskList(tasks)
     }
 }
@@ -57,11 +78,17 @@ fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
 fun TaskList(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
     LazyColumn(modifier) {
         itemsIndexed(tasks) { i, task ->
-            Row {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ){
                 IconButton(onClick = {
+                    //relies on the fact that indices are recalculated by Jetpack when 'tasks' changes
                     tasks.removeAt(i)
                 }) {
-                    Icon(Icons.Rounded.Check, contentDescription = "Done")
+                    Icon(Icons.Rounded.Check, contentDescription = "$task done")
                 }
                 Text(task)
             }
