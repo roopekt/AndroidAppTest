@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
-    var new_task by remember {
+    var newTask by remember {
         mutableStateOf("")
     }
 
@@ -46,9 +46,9 @@ fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
         ){
             BasicTextField(
-                value = new_task,
+                value = newTask,
                 onValueChange = { text ->
-                    new_task = text.replace("\n", "")
+                    newTask = text.replace("\n", "")
                 },
                 singleLine = true,
                 modifier = Modifier
@@ -58,9 +58,9 @@ fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
             )
             Button(
                 onClick = {
-                    if (new_task.isNotBlank()) {
-                        tasks.add(new_task)
-                        new_task = ""
+                    if (newTask.isNotBlank()) {
+                        tasks.add(newTask)
+                        newTask = ""
                     }
                 },
                 modifier = Modifier
