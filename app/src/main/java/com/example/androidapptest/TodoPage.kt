@@ -23,14 +23,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
+fun TodoPage(tasks: PersistentTaskList, modifier: Modifier = Modifier) {
     var newTask by remember {
         mutableStateOf("")
     }
@@ -75,9 +74,9 @@ fun TodoPage(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TaskList(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
+fun TaskList(tasks: PersistentTaskList, modifier: Modifier = Modifier) {
     LazyColumn(modifier) {
-        itemsIndexed(tasks) { i, task ->
+        itemsIndexed(tasks.trackedList) { i, task ->
             Row(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -86,7 +85,7 @@ fun TaskList(tasks: SnapshotStateList<String>, modifier: Modifier = Modifier) {
             ){
                 IconButton(onClick = {
                     //relies on the fact that indices are recalculated by Jetpack when 'tasks' changes
-                    tasks.removeAt(i)
+                    tasks.remove(i)
                 }) {
                     Icon(Icons.Rounded.Check, contentDescription = "$task done")
                 }
