@@ -1,5 +1,6 @@
 package com.example.androidapptest
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +20,12 @@ class MainActivity : ComponentActivity() {
                 FullApp()
             }
         }
+
+        if (checkSelfPermission("android.permission.FOREGROUND_SERVICE") == PackageManager.PERMISSION_DENIED)
+            requestPermissions(arrayOf("android.permission.FOREGROUND_SERVICE"), 0)
+        if (checkSelfPermission("android.permission.POST_NOTIFICATIONS") == PackageManager.PERMISSION_DENIED)
+            requestPermissions(arrayOf("android.permission.POST_NOTIFICATIONS"), 0)
+        TaskNotificationService.startService(this)
     }
 }
 
