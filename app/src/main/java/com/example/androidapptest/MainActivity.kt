@@ -16,9 +16,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AndroidAppTestTheme {
-                FullApp()
-            }
+            FullApp()
         }
 
         if (checkSelfPermission("android.permission.FOREGROUND_SERVICE") == PackageManager.PERMISSION_DENIED)
